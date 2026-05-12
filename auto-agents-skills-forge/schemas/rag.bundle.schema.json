@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Forge RAG Bundle",
+  "type": "object",
+  "required": ["schema_version", "session_id", "events", "narrative"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "session_id": {"type": "string"},
+    "metadata": {"type": "object"},
+    "events": {"type": "array"},
+    "narrative": {"type": "string"}
+  }
+}

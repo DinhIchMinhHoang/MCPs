@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-05-12T11:59:09.026195+00:00",
+  "artifacts": [
+    {
+      "name": "mcp_json_rpc_bridge",
+      "type": "tool",
+      "version": "0.1.0",
+      "hash": "35d4c524db3e7aba0614fb6d8f2af0056daa60f0ebefc0fb3d55931d15c868f5",
+      "path": "D:/00_Workspace/AI_Lab/Projects/MCPs/auto-agents-skills-forge/generated/tools/mcp_json_rpc_bridge.py",
+      "summary": "A tool designed to manage the lifecycle and JSON-RPC communication with the `notebooklm-mcp` subprocess, ensuring parameter names like `notebook_id` and `query` are correctly aligned [1].",
+      "dependencies": []
+    },
+    {
+      "name": "sidecar_metadata_manager",
+      "type": "tool",
+      "version": "0.1.0",
+      "hash": "e2f6595ab08df3ae092a2ce9fbc9f21c168d613ce49928edbefd42557c123a62",
+      "path": "D:/00_Workspace/AI_Lab/Projects/MCPs/auto-agents-skills-forge/generated/tools/sidecar_metadata_manager.py",
+      "summary": "A utility to generate and maintain JSON metadata files that reside alongside materialized code drafts to store summaries and prevent brittle parsing of source files [2, 3].",
+      "dependencies": []
+    },
+    {
+      "name": "synchronized_index_enforcer",
+      "type": "tool",
+      "version": "0.1.0",
+      "hash": "36f32672dca708dd6e6c106acdd29d4045abaa27933f6e4035af32429d69430f",
+      "path": "D:/00_Workspace/AI_Lab/Projects/MCPs/auto-agents-skills-forge/generated/tools/synchronized_index_enforcer.py",
+      "summary": "A tool that implements blocking wait-states and timeouts (e.g., `wait=True`) during source addition to ensure content is fully indexed before a RAG query is executed [1].",
+      "dependencies": []
+    },
+    {
+      "name": "hybrid_mcp_scaffolding",
+      "type": "skill",
+      "version": "0.1.0",
+      "hash": "03cb0dfbebb6b9ec0857d3ed8dcd55d55da9f8929c94130df82c10272d975a03",
+      "path": "D:/00_Workspace/AI_Lab/Projects/MCPs/auto-agents-skills-forge/generated/skills/hybrid_mcp_scaffolding.py",
+      "summary": "Proficiency in scaffolding hybrid architectures that pivot dependency stacks from HTTP wrappers to stdio-based MCP servers [1].",
+      "dependencies": []
+    },
+    {
+      "name": "regex_proposal_parsing",
+      "type": "skill",
+      "version": "0.1.0",
+      "hash": "59d783b89a96074ea4e9c3d7598f430dce01d67106aa617ebab92a4cec360db7",
+      "path": "D:/00_Workspace/AI_Lab/Projects/MCPs/auto-agents-skills-forge/generated/skills/regex_proposal_parsing.py",
+      "summary": "The ability to use regex-based anchors on names to accurately extract structured proposals even when summary fields contain conflicting characters like pipes [2, 3].",
+      "dependencies": []
+    },
+    {
+      "name": "venv_path_resolution",
+      "type": "skill",
+      "version": "0.1.0",
+      "hash": "827b8a4ff3c581243a6ecced567103234bff00fd1f3499dd65673b906d1b5b26",
+      "path": "D:/00_Workspace/AI_Lab/Projects/MCPs/auto-agents-skills-forge/generated/skills/venv_path_resolution.py",
+      "summary": "The ability to dynamically resolve CLI paths using `sys.executable` to ensure background processes always run within the intended virtual environment [1].",
+      "dependencies": []
+    },
+    {
+      "name": "Architecture_Integrity_Maintainer",
+      "type": "agent",
+      "version": "0.1.0",
+      "hash": "396af0c5c731ae595c4321367b36ebebe54470f7ab63d2d60c7ec3800bb3f375",
+      "path": "D:/00_Workspace/AI_Lab/Projects/MCPs/auto-agents-skills-forge/generated/agents/Architecture_Integrity_Maintainer.py",
+      "summary": "An agent focused on resolving circular imports and maintaining directory structures when shifting RAG pipelines to native subprocess models [1].",
+      "dependencies": []
+    },
+    {
+      "name": "Artifact_Lifecycle_Guardian",
+      "type": "agent",
+      "version": "0.1.0",
+      "hash": "fa36e7185a85d088af3bba511b697dbee8e5cb00c67e2f0f19a4b0eef14894b7",
+      "path": "D:/00_Workspace/AI_Lab/Projects/MCPs/auto-agents-skills-forge/generated/agents/Artifact_Lifecycle_Guardian.py",
+      "summary": "An agent dedicated to the coordinated approval and rejection of artifacts, ensuring that both primary code files and their associated sidecar JSON metadata are cleaned up or moved together [2, 3].",
+      "dependencies": []
+    },
+    {
+      "name": "Session_Persistence_Coordinator",
+      "type": "agent",
+      "version": "0.1.0",
+      "hash": "07b9705b00205c28d082103fe3bf365f0761c98c99c6ad4b1bef059ccac3814b",
+      "path": "D:/00_Workspace/AI_Lab/Projects/MCPs/auto-agents-skills-forge/generated/agents/Session_Persistence_Coordinator.py",
+      "summary": "An agent responsible for loading the last session from disk and managing in-memory deduplication to prevent duplicate proposals across runs [1, 3].",
+      "dependencies": []
+    }
+  ]
+}

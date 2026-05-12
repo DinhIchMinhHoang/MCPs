@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Forge Manifest",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "artifacts"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "generated_at": {"type": "string"},
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "type", "version", "hash", "path", "summary", "dependencies"],
+        "properties": {
+          "name": {"type": "string"},
+          "type": {"type": "string", "enum": ["tool", "skill", "agent"]},
+          "version": {"type": "string"},
+          "hash": {"type": "string"},
+          "path": {"type": "string"},
+          "summary": {"type": "string"},
+          "dependencies": {"type": "array", "items": {"type": "string"}},
+          "merge_notes": {"type": "string"}
+        }
+      }
+    }
+  }
+}
