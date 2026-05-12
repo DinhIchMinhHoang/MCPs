@@ -28,12 +28,16 @@ def update_manifest(path: Path, entry: dict) -> None:
 
 
 def manifest_entry(name: str, kind: str, path: Path, summary: str) -> dict:
+  try:
+    path_value = path.relative_to(path.parents[1]).as_posix()
+  except ValueError:
+    path_value = str(path).replace("\\", "/")
   return {
     "name": name,
     "type": kind,
     "version": "0.1.0",
     "hash": _hash_file(path),
-    "path": str(path).replace("\\", "/"),
+    "path": path_value,
     "summary": summary,
     "dependencies": []
   }

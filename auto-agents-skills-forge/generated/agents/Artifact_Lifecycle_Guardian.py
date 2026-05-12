@@ -1,3 +1,5 @@
-"""Generated agent."""
+"""Merged standout agent."""
 
-SUMMARY = "An agent dedicated to the coordinated approval and rejection of artifacts, ensuring that both primary code files and their associated sidecar JSON metadata are cleaned up or moved together [2, 3]."
+SUMMARY = "Merged Artifact_Lifecycle_Guardian with Ensures that approvals and rejections are synchronized between primary code files and their associated JSON metadata sidecars, including automatic cleanup of both [3, 4]."
+
+INSTRUCTION = "Merged Artifact_Lifecycle_Guardian with Ensures that approvals and rejections are synchronized between primary code files and their associated JSON metadata sidecars, including automatic cleanup of both [3, 4]."

@@ -22,6 +22,19 @@ def _summary_from_payload(payload: dict) -> str:
   return payload.get("summary", "Generated artifact proposal.")  # kept for compatibility
 
 
+def _plan_agent_body(summary: str) -> str:
+  prompt = (
+    "You are the Plan agent. Produce a concise plan as a numbered list. "
+    "Optionally include a JSON block titled PLAN_JSON with keys: tasks, risks, dependencies."
+  )
+  body = (
+    '"""Generated plan agent."""\n\n'
+    f'SUMMARY = {json.dumps(summary)}\n\n'
+    f'INSTRUCTION = {json.dumps(prompt)}\n'
+  )
+  return body
+
+
 def _materialize(kind: str, name: str, body: str, summary: str) -> Path:
   path = _draft_path(kind, name)
   path.parent.mkdir(parents=True, exist_ok=True)
@@ -37,10 +50,32 @@ def _materialize(kind: str, name: str, body: str, summary: str) -> Path:
 
 def _merge_standout(existing: ArtifactInfo, proposal: dict, proposal_summary: str) -> tuple[str, str]:
   merged_summary = f"Merged {existing.name} with {proposal_summary}"
-  body = (
-    f'"""Merged standout artifact based on {existing.name}."""\n\n'
-    f"SUMMARY = {json.dumps(merged_summary)}\n"
-  )
+  kind = existing.kind
+  if kind == "tool":
+    body = (
+      f'"""Merged standout artifact."""\n\n'
+      f"SUMMARY = {json.dumps(merged_summary)}\n\n"
+      f'def run(payload: dict) -> dict:\n'
+      f'    """Execute merged artifact."""\n'
+      f'    return {{"status": "ok", "artifact": "{existing.name}", "payload": payload}}\n'
+    )
+  elif kind == "skill":
+    body = (
+      f'"""Merged standout skill."""\n\n'
+      f"SUMMARY = {json.dumps(merged_summary)}\n\n"
+      f"SYSTEM_PROMPT = {json.dumps(merged_summary)}\n"
+    )
+  elif kind == "agent":
+    body = (
+      f'"""Merged standout agent."""\n\n'
+      f"SUMMARY = {json.dumps(merged_summary)}\n\n"
+      f"INSTRUCTION = {json.dumps(merged_summary)}\n"
+    )
+  else:
+    body = (
+      f'"""Merged standout artifact."""\n\n'
+      f"SUMMARY = {json.dumps(merged_summary)}\n"
+    )
   return body, merged_summary
 
 
@@ -79,6 +114,13 @@ def generate_drafts(rag_output: dict) -> dict:
   if not proposals:
     return {"schema_version": "1.0", "status": "no_proposals", "drafts_written": 0}
 
+  if not any(p.get("type") == "agent" and p.get("name") == "Plan_Agent" for p in proposals):
+    proposals.append({
+      "type": "agent",
+      "name": "Plan_Agent",
+      "summary": "Produces a concise execution plan with ordered tasks, risks, and dependencies."
+    })
+
   manifest = load_manifest(GENERATED_ROOT / "manifest.json")
   existing_items = [
     ArtifactInfo(
@@ -101,13 +143,36 @@ def generate_drafts(rag_output: dict) -> dict:
     target = ArtifactInfo(name=name, kind=kind, summary=summary, path="")
     candidates = [item for item in existing_items if item.kind == kind]
     match, score = find_similar(target, candidates + seen)
-    if match and score > 0.80:
+    if name == "Plan_Agent" and kind == "agent":
+      body = _plan_agent_body(summary)
+    elif match and score > 0.80:
       body, summary = _merge_standout(match, proposal, summary)
     else:
-      body = (
-        f'"""Generated {kind}."""\n\n'
-        f"SUMMARY = {json.dumps(summary)}\n"
-      )
+      if kind == "tool":
+        body = (
+          f'"""Generated tool."""\n\n'
+          f'SUMMARY = {json.dumps(summary)}\n\n'
+          f'def run(payload: dict) -> dict:\n'
+          f'    """Execute the tool with the given payload."""\n'
+          f'    return {{"status": "ok", "artifact": "{name}", "payload": payload}}\n'
+        )
+      elif kind == "skill":
+        body = (
+          f'"""Generated skill."""\n\n'
+          f'SUMMARY = {json.dumps(summary)}\n\n'
+          f'SYSTEM_PROMPT = {json.dumps(summary)}\n'
+        )
+      elif kind == "agent":
+        body = (
+          f'"""Generated agent."""\n\n'
+          f'SUMMARY = {json.dumps(summary)}\n\n'
+          f'INSTRUCTION = {json.dumps(summary)}\n'
+        )
+      else:
+        body = (
+          f'"""Generated {kind}."""\n\n'
+          f'SUMMARY = {json.dumps(summary)}\n'
+        )
     _materialize(kind, name, body, summary)
     seen.append(target)
     written += 1
